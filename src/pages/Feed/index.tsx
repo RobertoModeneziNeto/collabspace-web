@@ -1,5 +1,5 @@
 import Header from "../../components/Header";
-import Post from "../../components/Posts";
+import Post from "../../components/Post";
 import ProfileCard from "../../components/ProfileCard";
 
 import { Container, Content, Posts } from "./styles";

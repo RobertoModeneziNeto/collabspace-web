@@ -65,6 +65,7 @@ export const ButtonEdit = styled.button`
   border: 1px solid var(--emerald-600);
   border-radius: 8px;
   outline: 0;
+  transition: all 0.25s;
 
   cursor: pointer;
 
