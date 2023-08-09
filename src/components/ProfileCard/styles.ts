@@ -7,38 +7,16 @@ export const Container = styled.aside`
 
   border-radius: 8px;
 
-  header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    div {
-      margin-top: -28px;
-    }
-  }
-
-  main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    margin-top: 1rem;
-
-    h1 {
-      font-size: 1rem;
-      color: var(--zinc-200);
-      font-weight: bold;
-    }
-
-    p {
-      font-size: 0.875rem;
-      color: var(--zinc-500);
-    }
-  }
-
   footer {
-    display: flex;
-    justify-content: center;
+  }
+`;
+
+export const Header = styled.header`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  div {
+    margin-top: -28px;
   }
 `;
 
@@ -47,6 +25,31 @@ export const Cover = styled.img`
   height: 6rem;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 1rem;
+
+  h1 {
+    font-size: 1rem;
+    color: var(--zinc-200);
+    font-weight: bold;
+  }
+
+  p {
+    font-size: 0.875rem;
+    color: var(--zinc-500);
+  }
+`;
+
+export const Footer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export const Divider = styled.div`
