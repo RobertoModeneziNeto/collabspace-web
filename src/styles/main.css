@@ -28,7 +28,7 @@ body, input, textarea, button {
   font-family: 'Poppins', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-
+/* Custom scrollbar body */
 body {
   overflow-x: hidden;
 }
@@ -46,3 +46,26 @@ body::-webkit-scrollbar {
   width: 12px;
   
 }
+
+/* Custom scrollbar textarea */
+textarea {
+  overflow-x: hidden;
+}
+
+textarea::-webkit-scrollbar-track {
+  margin: 6px 0;
+  background: var(--zinc-900);
+  
+}
+
+textarea::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: var(--zinc-600);
+  
+}
+
+textarea::-webkit-scrollbar {
+  width: 4px;
+  
+}
+

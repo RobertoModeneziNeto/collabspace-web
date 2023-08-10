@@ -1,3 +1,4 @@
+import CreatePost from "../../components/CreatePost";
 import Header from "../../components/Header";
 import Post from "../../components/Post";
 import ProfileCard from "../../components/ProfileCard";
@@ -13,6 +14,11 @@ const Feed: React.FC = () => {
         <ProfileCard />
 
         <Posts>
+          <CreatePost />
+
+          <Post />
+          <Post />
+          <Post />
           <Post />
         </Posts>
       </Content>
