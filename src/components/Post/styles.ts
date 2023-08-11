@@ -1,4 +1,8 @@
-import { styled } from "styled-components";
+import { css, styled } from "styled-components";
+
+interface CommentAreaProps {
+  commentArea: boolean;
+}
 
 export const Container = styled.div`
   width: 100%;
@@ -76,6 +80,85 @@ export const Divider = styled.div`
   height: 1px;
   background: var(--zinc-700);
   margin: 2rem 0;
+`;
+
+export const Interactions = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 2rem;
+`;
+
+export const InteractionsInfo = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  border-top: 1px solid var(--zinc-700);
+  border-bottom: 1px solid var(--zinc-700);
+
+  span {
+    font-size: 0.875rem;
+    color: var(--zinc-400);
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+`;
+
+export const CountReaction = styled.div`
+  span {
+    display: flex;
+    gap: 4px;
+  }
+
+  svg {
+    color: var(--zinc-400);
+  }
+`;
+
+export const CountComment = styled.div``;
+
+export const InteractionsAction = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 2rem;
+`;
+
+export const ButtonAction = styled.button`
+  width: 25%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 0.875rem;
+  background: transparent;
+  border: 0;
+  outline: 0;
+  border-radius: 4px;
+  padding: 0.5rem 2rem;
+  color: var(--zinc-400);
+  font-weight: 500;
+  transition: all 0.15s;
+
+  cursor: pointer;
+
+  &:hover {
+    background: var(--zinc-700);
+  }
+`;
+
+export const CommentArea = styled.div<CommentAreaProps>`
+  margin-top: 2rem;
+
+  ${({ commentArea }) =>
+    !commentArea &&
+    css`
+      display: none;
+    `}
 `;
 
 export const CommentForm = styled.form`
