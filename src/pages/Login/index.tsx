@@ -1,6 +1,22 @@
-import { Button, Container, Form, Group, Input, Label } from "./styles";
+import { useNavigate } from "react-router-dom";
+
+import {
+  Button,
+  Container,
+  Form,
+  Group,
+  Input,
+  Label,
+  LinkRegister,
+} from "./styles";
 
 const Login: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
   return (
     <Container>
       <Form>
@@ -17,6 +33,11 @@ const Login: React.FC = () => {
         </Group>
 
         <Button>Fazer login</Button>
+
+        <LinkRegister>
+          <p>Novo no Collabspace?</p>
+          <a onClick={handleRegister}>Cadastre-se agora </a>
+        </LinkRegister>
       </Form>
     </Container>
   );
