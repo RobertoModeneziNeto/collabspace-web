@@ -1,12 +1,12 @@
 import { Trash } from "phosphor-react";
 
-import Avatar from "../Avatar";
+import AvatarSquare from "../AvatarSquare";
 import { AuthorAndTime, ButtonDelete, CommentBox, Container } from "./styles";
 
 const Comment: React.FC = () => {
   return (
     <Container>
-      <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLxpmmwZWwQ0F1olKT3br8rWaliSaHNPvPDg&usqp=CAU" />
+      <AvatarSquare src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLxpmmwZWwQ0F1olKT3br8rWaliSaHNPvPDg&usqp=CAU" />
 
       <CommentBox>
         <AuthorAndTime>

@@ -1,7 +1,8 @@
+import AvatarCircle from "../AvatarCircle";
+
 import { Check, X } from "phosphor-react";
 
 import {
-  Avatar,
   Container,
   User,
   Info,
@@ -14,7 +15,7 @@ const RequestFriend: React.FC = () => {
   return (
     <Container>
       <User>
-        <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQisDABGj1d2XF8DxoGhk3tn-cx2F1fWOFgY3RiL_s-5GidpAO-NmJkv6taQ9lC36ejRyc&usqp=CAU" />
+        <AvatarCircle src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQisDABGj1d2XF8DxoGhk3tn-cx2F1fWOFgY3RiL_s-5GidpAO-NmJkv6taQ9lC36ejRyc&usqp=CAU" />
 
         <Info>
           <h1>James Rodriguez</h1>

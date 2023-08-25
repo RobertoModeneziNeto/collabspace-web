@@ -1,12 +1,13 @@
 import { css, styled } from "styled-components";
 
 interface ContaineProps {
+  $size: string;
   $borderEffect?: boolean;
 }
 
 export const Container = styled.img<ContaineProps>`
-  width: 56px;
-  height: 56px;
+  width: ${({ $size }) => $size};
+  height: ${({ $size }) => $size};
   min-height: 56px;
   min-width: 56px;
   background: white;
