@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { useAuthentication } from "../../contexts/AuthContext";
 
-import { SpinerLogin } from "../../assets/sources";
+import { Spiner } from "../../assets/sources";
 
 import {
   Button,
@@ -73,7 +73,7 @@ const Login: React.FC = () => {
           />
         </Group>
 
-        <Button>{loading ? <SpinerLogin /> : "Fazer login"}</Button>
+        <Button>{loading ? <Spiner /> : "Fazer login"}</Button>
 
         <LinkRegister>
           <p>Novo no Collabspace?</p>

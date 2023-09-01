@@ -9,6 +9,6 @@ export const Container = styled.img<ContaineProps>`
   width: ${({ $size }) => $size};
   height: ${({ $size }) => $size};
   border-radius: 100%;
-  background: white;
+
   object-fit: cover;
 `;
