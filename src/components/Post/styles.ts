@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: space-between;
 
   time {
@@ -35,6 +35,11 @@ export const AuthorInfo = styled.section`
   h1 {
     font-size: 1rem;
     color: var(--zinc-200);
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   p {
@@ -115,7 +120,7 @@ export const CountReaction = styled.div`
   }
 
   svg {
-    color: var(--zinc-400);
+    color: var(--emerald-600);
   }
 `;
 
@@ -172,4 +177,8 @@ export const CommentForm = styled.form`
   }
 `;
 
-export const Comments = styled.div``;
+export const Comments = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+`;

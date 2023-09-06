@@ -14,6 +14,8 @@ export const Container = styled.img<ContaineProps>`
   border-radius: 6px;
   object-fit: cover;
 
+  cursor: pointer;
+
   ${({ $borderEffect }) =>
     $borderEffect &&
     css`

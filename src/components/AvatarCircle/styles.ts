@@ -11,4 +11,6 @@ export const Container = styled.img<ContaineProps>`
   border-radius: 100%;
 
   object-fit: cover;
+
+  cursor: pointer;
 `;

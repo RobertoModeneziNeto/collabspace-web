@@ -17,7 +17,6 @@ export const Header = styled.header`
   align-items: center;
   div {
     margin-top: -28px;
-    cursor: pointer;
   }
 `;
 

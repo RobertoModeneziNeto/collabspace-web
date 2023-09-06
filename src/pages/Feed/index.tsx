@@ -37,19 +37,22 @@ const Feed: React.FC = () => {
         <ProfileCard />
 
         <Posts>
-          <CreatePost />
+          <CreatePost onCreatePost={handleListAllPosts} />
 
           {posts.map((post) => (
             <Post
               key={post.id}
+              authorId={post.user.id}
               authorAvatar={post.user.avatarUrl}
               authorName={post.user.name}
               authorEmail={post.user.name}
+              postId={post.id}
               content={post.content}
               tags={post.tags}
               comments={post.comments}
               reactions={post.reactions}
               publishedAt={post.publishedAt}
+              onCreateComment={handleListAllPosts}
             />
           ))}
         </Posts>

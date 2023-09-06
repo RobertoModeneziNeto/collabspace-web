@@ -2,25 +2,53 @@ import { Trash } from "phosphor-react";
 
 import AvatarSquare from "../AvatarSquare";
 import { AuthorAndTime, ButtonDelete, CommentBox, Container } from "./styles";
+import { DiffToString } from "../../utils/date";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
-const Comment: React.FC = () => {
+interface CommentProps {
+  authorId: string;
+  authorAvatar: string | null;
+  authorName: string;
+  commentedAt: string;
+  commentId: string;
+  content: string;
+  reactions: any[];
+}
+
+const Comment: React.FC<CommentProps> = ({
+  authorId,
+  authorAvatar,
+  authorName,
+  commentedAt,
+  content,
+  commentId,
+  reactions = [],
+}) => {
+  const navigate = useNavigate();
+
+  function handleMe() {
+    navigate(`/me/${authorId}`);
+  }
   return (
     <Container>
-      <AvatarSquare src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLxpmmwZWwQ0F1olKT3br8rWaliSaHNPvPDg&usqp=CAU" />
+      <AvatarSquare
+        onClick={handleMe}
+        src={authorAvatar || "https://i.imgur.com/HYrZqHy.jpg"}
+      />
 
       <CommentBox>
         <AuthorAndTime>
-          <h1>Rodrigo Goes</h1>
-          <time>Cerca de 2h</time>
+          <h1 onClick={handleMe}>{authorName}</h1>
+          <time>
+            Cerca de {DiffToString(moment().diff(commentedAt, "seconds"))}
+          </time>
           <ButtonDelete>
             <Trash size={22} />
           </ButtonDelete>
         </AuthorAndTime>
 
-        <p>
-          Vamos analisar esse Baseballbet, me parece bem astheric!! já tenho o
-          meu veredito!
-        </p>
+        <p>{content}</p>
       </CommentBox>
     </Container>
   );

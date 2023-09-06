@@ -27,6 +27,12 @@ export const AuthorAndTime = styled.div`
   h1 {
     font-size: 0.875rem;
     color: var(--zinc-200);
+
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   time {

@@ -1,5 +1,7 @@
 import { useState, useCallback, FormEvent } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import { toast } from "react-toastify";
 
 import AvatarSquare from "../AvatarSquare";
@@ -10,7 +12,12 @@ import { Container, Form } from "./styles";
 import { useAuthentication } from "../../contexts/AuthContext";
 import { createPost } from "../../services/posts";
 
-const CreatePost: React.FC = () => {
+interface CreatePostProps {
+  onCreatePost: () => void;
+}
+
+const CreatePost: React.FC<CreatePostProps> = ({ onCreatePost }) => {
+  const navigate = useNavigate();
   const { user } = useAuthentication();
 
   const [content, setContent] = useState<string>("");
@@ -21,18 +28,27 @@ const CreatePost: React.FC = () => {
       try {
         const { result, message } = await createPost({ content });
 
-        if (result === "success") toast.success(message);
+        if (result === "success") {
+          setContent("");
+          onCreatePost();
+          toast.success(message);
+        }
         if (result === "error") toast.error(message);
       } catch (error: any) {
         toast.error(error.message);
       }
     },
-    [content],
+    [content, onCreatePost],
   );
+
+  const handleMe = () => {
+    if (user) navigate(`/me/${user.id}`);
+  };
 
   return (
     <Container>
       <AvatarSquare
+        onClick={handleMe}
         src={user?.avatarUrl || "https://i.imgur.com/HYrZqHy.jpg"}
         borderEffect
       />
