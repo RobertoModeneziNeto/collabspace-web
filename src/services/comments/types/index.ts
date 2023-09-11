@@ -3,6 +3,7 @@ import { AppResponse } from "../../Api/types";
 interface IUserComment {
   id: string;
   name: string;
+  email: string;
   avatarUrl: string | null;
 }
 

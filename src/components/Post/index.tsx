@@ -182,6 +182,7 @@ const Post: React.FC<PostProps> = ({
           {comments.map((comment) => (
             <Comment
               key={comment.id}
+              postAuhtorId={authorId}
               content={comment.content}
               commentedAt={comment.commentedAt}
               authorName={comment.user.name}

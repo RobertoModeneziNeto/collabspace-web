@@ -6,7 +6,10 @@ import { DiffToString } from "../../utils/date";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
+import { useAuthentication } from "../../contexts/AuthContext";
+
 interface CommentProps {
+  postAuhtorId: string;
   authorId: string;
   authorAvatar: string | null;
   authorName: string;
@@ -17,6 +20,7 @@ interface CommentProps {
 }
 
 const Comment: React.FC<CommentProps> = ({
+  postAuhtorId,
   authorId,
   authorAvatar,
   authorName,
@@ -26,6 +30,7 @@ const Comment: React.FC<CommentProps> = ({
   reactions = [],
 }) => {
   const navigate = useNavigate();
+  const { user } = useAuthentication();
 
   function handleMe() {
     navigate(`/me/${authorId}`);
@@ -43,9 +48,13 @@ const Comment: React.FC<CommentProps> = ({
           <time>
             Cerca de {DiffToString(moment().diff(commentedAt, "seconds"))}
           </time>
-          <ButtonDelete>
-            <Trash size={22} />
-          </ButtonDelete>
+
+          {(user && user.id === authorId) ||
+          (user && user.id === postAuhtorId) ? (
+            <ButtonDelete>
+              <Trash size={22} />
+            </ButtonDelete>
+          ) : null}
         </AuthorAndTime>
 
         <p>{content}</p>
