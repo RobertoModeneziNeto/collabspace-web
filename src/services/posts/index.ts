@@ -24,7 +24,7 @@ const createPost = async ({
 
 const listAllPosts = async (
   page = 0,
-  limit = 10,
+  limit = 50,
 ): Promise<IListAllPostsResponse> => {
   const response = await api
     .get(`/posts?page=${page}&limit=${limit}`)

@@ -60,7 +60,6 @@ const Feed: React.FC = () => {
               comments={post.comments}
               reactions={post.reactions}
               publishedAt={post.publishedAt}
-              onCreateComment={handleListAllPosts}
             />
           ))}
         </Posts>

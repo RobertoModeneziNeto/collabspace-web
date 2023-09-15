@@ -1,50 +1,54 @@
+import { useState, useCallback, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import { ThumbsUp, ChatCircleText } from "phosphor-react";
+import { toast } from "react-toastify";
+import moment from "moment";
 
 import { DiffToString } from "../../utils/date";
+
+import { useAuthentication } from "../../contexts/AuthContext";
+
+import { createComment, deleteComment } from "../../services/comments";
+import { createReaction, deleteReaction } from "../../services/reactions";
+import { IComment } from "../../services/comments/types";
+import { IReaction } from "../../services/reactions/types";
 
 import AvatarSquare from "../AvatarSquare";
 import Comment from "../Comment";
 import InputArea from "../InputArea";
 import Button from "../Button";
-import { FormEvent, useCallback, useState } from "react";
-import moment from "moment";
-import { useNavigate } from "react-router-dom";
 
 import {
+  Container,
+  Header,
   Author,
   AuthorInfo,
-  Comments,
-  Container,
   Content,
   Description,
+  Hastags,
   Divider,
-  CommentForm,
   Interactions,
   InteractionsInfo,
   CountReaction,
   CountComment,
   InteractionsAction,
   ButtonAction,
-  Hastags,
-  Header,
   CommentArea,
+  CommentForm,
+  Comments,
 } from "./styles";
-import { createComment } from "../../services/comments";
-import { toast } from "react-toastify";
-import { IComment } from "../../services/comments/types";
 
 interface PostProps {
   authorId: string;
   authorAvatar: string | null;
   authorName: string;
   authorEmail: string;
-  publishedAt: string;
   postId: string;
   content: string;
   tags: string | null;
   comments: IComment[];
-  reactions: any[];
-  onCreateComment: () => void;
+  reactions: IReaction[];
+  publishedAt: string;
 }
 
 const Post: React.FC<PostProps> = ({
@@ -52,31 +56,50 @@ const Post: React.FC<PostProps> = ({
   authorAvatar,
   authorName,
   authorEmail,
-  publishedAt,
   postId,
   content,
   tags,
   comments = [],
   reactions = [],
-  onCreateComment,
+  publishedAt,
 }) => {
+  const navigate = useNavigate();
+  const { user } = useAuthentication();
+
+  const [postComments, setPostComments] = useState(comments);
+  const [postReactions, setPostReactions] = useState(reactions);
+
   const [commentArea, setCommentArea] = useState(false);
   const [commentContent, setCommentContent] = useState("");
+
+  const [userReacted, setUserReacted] = useState(
+    postReactions.some((reaction) => reaction.user.id === user?.id),
+  );
 
   const handleCreateComment = useCallback(
     async (e: FormEvent) => {
       e.preventDefault();
 
       try {
-        const { result, message } = await createComment({
+        const { result, message, data } = await createComment({
           postId,
           content: commentContent,
         });
 
         if (result === "success") {
-          setCommentContent("");
-          onCreateComment();
-          toast.success(message);
+          if (data) {
+            setCommentContent("");
+
+            setPostComments((prevState) => {
+              const postComments = [...prevState];
+
+              postComments.unshift(data);
+
+              return postComments;
+            });
+
+            toast.success(message);
+          }
         }
 
         if (result === "error") {
@@ -86,14 +109,85 @@ const Post: React.FC<PostProps> = ({
         toast.error(error.message);
       }
     },
-    [commentContent, postId, onCreateComment],
+    [postId, commentContent],
   );
+
+  const handleDeleteComment = useCallback(
+    async (commentId: string) => {
+      try {
+        const { result } = await deleteComment({ commentId, postId });
+
+        if (result === "success") {
+          setPostComments((prevState) =>
+            prevState.filter((comment) => comment.id !== commentId),
+          );
+        }
+      } catch (error: any) {
+        toast.error(error.message);
+      }
+    },
+    [postId],
+  );
+
+  const handleCreateReaction = useCallback(async () => {
+    try {
+      const { result, data } = await createReaction({
+        postId,
+        entityType: 1,
+      });
+
+      if (result === "success") {
+        if (data) {
+          setPostReactions((prevState) => {
+            const postReactions = [...prevState];
+
+            postReactions.unshift(data);
+
+            return postReactions;
+          });
+        }
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  }, [postId]);
+
+  const handleDeleteReaction = useCallback(async (reactionId: string) => {
+    try {
+      const { result } = await deleteReaction({ reactionId });
+
+      if (result === "success") {
+        setPostReactions((prevState) =>
+          prevState.filter((reaction) => reaction.id !== reactionId),
+        );
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  }, []);
+
+  function toggleReaction() {
+    if (userReacted) {
+      const reaction = postReactions.find(
+        (reaction) => reaction.user.id === user?.id,
+      );
+
+      if (reaction) {
+        handleDeleteReaction(reaction.id);
+
+        setUserReacted(false);
+      }
+
+      return;
+    }
+
+    handleCreateReaction();
+    setUserReacted(true);
+  }
 
   function toggleCommentArea() {
     setCommentArea(!commentArea);
   }
-
-  const navigate = useNavigate();
 
   function handleMe() {
     navigate(`/me/${authorId}`);
@@ -124,6 +218,7 @@ const Post: React.FC<PostProps> = ({
         <Description>
           <p>{content}</p>
         </Description>
+
         <Hastags>
           <span>{tags}</span>
         </Hastags>
@@ -133,21 +228,22 @@ const Post: React.FC<PostProps> = ({
         <InteractionsInfo>
           <CountReaction>
             <span>
-              <ThumbsUp size={19} weight="bold" />
-              {reactions.length}
+              <ThumbsUp size={19} weight={userReacted ? "fill" : "bold"} />
+
+              {postReactions.length}
             </span>
           </CountReaction>
 
           <CountComment>
             <span onClick={toggleCommentArea}>
-              {comments.length} comentários
+              {postComments.length} comentários
             </span>
           </CountComment>
         </InteractionsInfo>
 
         <InteractionsAction>
-          <ButtonAction>
-            <ThumbsUp size={22} />
+          <ButtonAction onClick={toggleReaction}>
+            <ThumbsUp size={22} weight={userReacted ? "fill" : "regular"} />
             Reagir
           </ButtonAction>
 
@@ -168,9 +264,7 @@ const Post: React.FC<PostProps> = ({
             rows={3}
             placeholder="Escreva seu comentário aqui ..."
             required
-            onChange={(e) => {
-              setCommentContent(e.target.value);
-            }}
+            onChange={(e) => setCommentContent(e.target.value)}
           />
 
           <Button>Comentar</Button>
@@ -179,17 +273,18 @@ const Post: React.FC<PostProps> = ({
         <Divider />
 
         <Comments>
-          {comments.map((comment) => (
+          {postComments.map((comment) => (
             <Comment
               key={comment.id}
               postAuhtorId={authorId}
-              content={comment.content}
-              commentedAt={comment.commentedAt}
-              authorName={comment.user.name}
-              authorAvatar={comment.user.avatarUrl}
               authorId={comment.user.id}
+              authorAvatar={comment.user.avatarUrl}
+              authorName={comment.user.name}
               commentId={comment.id}
+              content={comment.content}
               reactions={comment.reactions}
+              commentedAt={comment.commentedAt}
+              onDelete={handleDeleteComment}
             />
           ))}
         </Comments>

@@ -1,0 +1,39 @@
+import { AppResponse } from "../../Api/types";
+
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  avatarUrl: string | null;
+}
+
+interface IReaction {
+  id: string;
+  userId: string;
+  entityType: 1 | 2 | 3 | 4 | 5 | 6;
+  reactedAt: string;
+  user: IUser;
+}
+
+interface ICreateReactionRequest {
+  postId?: string;
+  commentId?: string;
+  entityType: 1 | 2 | 3 | 4 | 5 | 6;
+}
+interface ICreateReactionResponse extends AppResponse {
+  data?: IReaction;
+}
+
+interface IDeleteReactionRequest {
+  reactionId: string;
+}
+
+type IDeleteReactionResponse = AppResponse;
+
+export type {
+  ICreateReactionRequest,
+  ICreateReactionResponse,
+  IReaction,
+  IDeleteReactionRequest,
+  IDeleteReactionResponse,
+};

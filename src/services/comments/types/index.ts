@@ -1,4 +1,5 @@
 import { AppResponse } from "../../Api/types";
+import { IReaction } from "../../reactions/types";
 
 interface IUserComment {
   id: string;
@@ -12,7 +13,7 @@ interface IComment {
   content: string;
   commentedAt: string;
   user: IUserComment;
-  reactions: any[];
+  reactions: IReaction[];
 }
 
 interface ICreateCommentRequest {
@@ -21,12 +22,20 @@ interface ICreateCommentRequest {
 }
 
 interface ICreateCommentResponse extends AppResponse {
-  data?: {
-    id: string;
-    postId: string;
-    userId: string;
-    content: string;
-  };
+  data?: IComment;
 }
 
-export type { ICreateCommentRequest, ICreateCommentResponse, IComment };
+interface IDeleteCommentRequest {
+  commentId: string;
+  postId: string;
+}
+
+type IDeleteCommentResponse = AppResponse;
+
+export type {
+  IComment,
+  ICreateCommentRequest,
+  ICreateCommentResponse,
+  IDeleteCommentRequest,
+  IDeleteCommentResponse,
+};

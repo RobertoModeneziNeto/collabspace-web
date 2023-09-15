@@ -1,5 +1,10 @@
 import api from "../Api/api";
-import { ICreateCommentRequest, ICreateCommentResponse } from "./types";
+import {
+  ICreateCommentRequest,
+  ICreateCommentResponse,
+  IDeleteCommentRequest,
+  IDeleteCommentResponse,
+} from "./types";
 
 const createComment = async ({
   postId,
@@ -13,4 +18,16 @@ const createComment = async ({
   return response.data;
 };
 
-export { createComment };
+const deleteComment = async ({
+  commentId,
+  postId,
+}: IDeleteCommentRequest): Promise<IDeleteCommentResponse> => {
+  const response = await api
+    .delete(`/comments/${commentId}/${postId}`)
+    .then((res) => res)
+    .catch((err) => err);
+
+  return response.data;
+};
+
+export { createComment, deleteComment };
