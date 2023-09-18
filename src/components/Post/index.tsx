@@ -37,6 +37,7 @@ import {
   CommentForm,
   Comments,
 } from "./styles";
+import Modal from "../Modal";
 
 interface PostProps {
   authorId: string;
@@ -75,6 +76,8 @@ const Post: React.FC<PostProps> = ({
   const [userReacted, setUserReacted] = useState(
     postReactions.some((reaction) => reaction.user.id === user?.id),
   );
+
+  const [modalReactions, setModalReactions] = useState(false);
 
   const handleCreateComment = useCallback(
     async (e: FormEvent) => {
@@ -193,6 +196,10 @@ const Post: React.FC<PostProps> = ({
     navigate(`/me/${authorId}`);
   }
 
+  function toggleModalReactions() {
+    setModalReactions(!modalReactions);
+  }
+
   return (
     <Container>
       <Header>
@@ -226,7 +233,7 @@ const Post: React.FC<PostProps> = ({
 
       <Interactions>
         <InteractionsInfo>
-          <CountReaction>
+          <CountReaction onClick={toggleModalReactions}>
             <span>
               <ThumbsUp size={19} weight={userReacted ? "fill" : "bold"} />
 
@@ -289,6 +296,10 @@ const Post: React.FC<PostProps> = ({
           ))}
         </Comments>
       </CommentArea>
+
+      <Modal isOpen={modalReactions} onclose={toggleModalReactions}>
+        <h1>Conteudo do Modal</h1>
+      </Modal>
     </Container>
   );
 };
