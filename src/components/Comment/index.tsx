@@ -11,14 +11,15 @@ import {
 } from "./styles";
 import { DiffToString } from "../../utils/date";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
 
 import { useState, useCallback } from "react";
 
-import { useAuthentication } from "../../contexts/AuthContext";
 import { createReaction, deleteReaction } from "../../services/reactions";
 import { toast } from "react-toastify";
 import { IReaction } from "../../services/reactions/types";
+import { useAuthentication } from "../../contexts/AuthContext";
+import Modal from "../Modal";
+import ReactionList from "../ReactionList";
 
 interface CommentProps {
   postAuhtorId: string;
@@ -43,14 +44,15 @@ const Comment: React.FC<CommentProps> = ({
   reactions = [],
   onDelete,
 }) => {
-  const navigate = useNavigate();
-  const { user } = useAuthentication();
+  const { user, me } = useAuthentication();
 
   const [commentReactions, setCommentReactions] = useState(reactions);
 
   const [userReacted, setUserReacted] = useState(
     commentReactions.some((reaction) => reaction.user.id === user?.id),
   );
+
+  const [modalReactions, setModalReactions] = useState(false);
 
   const handleCreateReactions = useCallback(async () => {
     try {
@@ -61,6 +63,8 @@ const Comment: React.FC<CommentProps> = ({
 
       if (result === "success") {
         if (data) {
+          console.log(data);
+
           setCommentReactions((prevState) => {
             const commentReactions = [...prevState];
 
@@ -112,20 +116,18 @@ const Comment: React.FC<CommentProps> = ({
     setUserReacted(true);
   }
 
-  function handleMe() {
-    navigate(`/me/${authorId}`);
+  function toggleModalReactions() {
+    setModalReactions(!modalReactions);
   }
+
   return (
     <Container>
-      <AvatarSquare
-        onClick={handleMe}
-        src={authorAvatar || "https://i.imgur.com/HYrZqHy.jpg"}
-      />
+      <AvatarSquare onClick={() => me(authorId)} avatar={authorAvatar} />
 
       <CommentBox>
         <InputArea>
           <AuthorAndTime>
-            <h1 onClick={handleMe}>{authorName}</h1>
+            <h1 onClick={() => me(authorId)}>{authorName}</h1>
             <time>
               Cerca de {DiffToString(moment().diff(commentedAt, "seconds"))}
             </time>
@@ -143,14 +145,18 @@ const Comment: React.FC<CommentProps> = ({
 
         <Interactions>
           <ThumbsUp
-            onClick={toggleReaction}
             size={18}
+            onClick={toggleReaction}
             weight={userReacted ? "fill" : "regular"}
           />
-          <span>•</span>
-          <span>{commentReactions.length}</span>
+          <span> • </span>
+          <span onClick={toggleModalReactions}> {commentReactions.length}</span>
         </Interactions>
       </CommentBox>
+
+      <Modal isOpen={modalReactions} onclose={toggleModalReactions}>
+        <ReactionList data={commentReactions} />
+      </Modal>
     </Container>
   );
 };

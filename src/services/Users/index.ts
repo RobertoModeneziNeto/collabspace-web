@@ -5,6 +5,10 @@ import {
   ICreateUserResponse,
   IListUserByIdRequest,
   IListUserByIdResponse,
+  IUpdateAvatarResponse,
+  IUpdateAvatarRequest,
+  IUpdateCoverResponse,
+  IUpdateCoverRequest,
 } from "./types";
 
 const createUser = async ({
@@ -43,4 +47,26 @@ const listUserById = async ({
   return response.data;
 };
 
-export { createUser, listUserById };
+const updateAvatar = async ({
+  avatarUrl,
+}: IUpdateAvatarRequest): Promise<IUpdateAvatarResponse> => {
+  const response = await api
+    .patch("/users/updateAvatar", { avatarUrl })
+    .then((res) => res)
+    .catch((err) => err);
+
+  return response.data;
+};
+
+const updateCover = async ({
+  coverUrl,
+}: IUpdateCoverRequest): Promise<IUpdateCoverResponse> => {
+  const response = await api
+    .patch("/users/updateCover", { coverUrl })
+    .then((res) => res)
+    .catch((err) => err);
+
+  return response.data;
+};
+
+export { createUser, listUserById, updateAvatar, updateCover };

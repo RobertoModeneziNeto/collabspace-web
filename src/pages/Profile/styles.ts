@@ -205,3 +205,50 @@ export const RequestList = styled.div`
   gap: 1rem;
   margin-top: 1rem;
 `;
+
+export const FormEdit = styled.form`
+  height: 100%;
+  padding: 2rem 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+`;
+
+export const InputEdit = styled.input`
+  width: 100%;
+  height: 48px;
+  background: var(--zinc-700);
+  color: var(--zinc-300);
+  font-size: 1rem;
+  padding: 1.25rem 1rem;
+  border-radius: 4px;
+  border: 0;
+  outline: 0;
+
+  &::placeholder {
+    color: var(--zinc-400);
+  }
+`;
+
+export const ButtonEdit = styled.button`
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1rem;
+  border: 0;
+  outline: 0;
+  color: var(--white);
+  border-radius: 4px;
+  font-weight: 600;
+  background: var(--emerald-500);
+  transition: all 0.15s;
+
+  cursor: pointer;
+
+  &:hover {
+    color: var(--zinc-200);
+    background: var(--emerald-600);
+  }
+`;

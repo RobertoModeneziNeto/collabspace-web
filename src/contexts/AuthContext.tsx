@@ -9,6 +9,7 @@ import { User } from "../services/Sessions/types";
 import { session } from "../services/Sessions";
 import api from "../services/Api/api";
 import usePersistedState from "../hooks/usePersistedState";
+import { useNavigate } from "react-router-dom";
 
 interface SigInRequest {
   email: string;
@@ -28,7 +29,10 @@ interface AuthenticationContextType {
   loggedEmail: string;
   handleLoggedEmail: (email: string) => void;
   signIn(data: SigInRequest): Promise<SigInResponse>;
+  handleAvatarUrl: (avatarUrl: string) => void;
+  handleCoverUrl: (coverUrl: string) => void;
   signOut(): void;
+  me(id?: string): void;
 }
 
 interface AuthenticationProviderProps {
@@ -52,6 +56,8 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
     },
     [setLoggedEmail],
   );
+
+  const navigate = useNavigate();
 
   const signIn = useCallback(
     async ({ email, password }: SigInRequest): Promise<SigInResponse> => {
@@ -80,9 +86,33 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
     [setUser, setToken],
   );
 
+  const handleAvatarUrl = useCallback(
+    (avatarUrl: string) => {
+      setUser((prevState) => ({
+        ...prevState,
+        avatarUrl,
+      }));
+    },
+    [setUser],
+  );
+
+  const handleCoverUrl = useCallback(
+    (coverUrl: string) => {
+      setUser((prevState) => ({
+        ...prevState,
+        coverUrl,
+      }));
+    },
+    [setUser],
+  );
+
   const signOut = () => {
     setUser(null);
     setToken("");
+  };
+
+  const me = (id: string) => {
+    if (id) navigate(`/me/${id}`);
   };
 
   return (
@@ -95,7 +125,10 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
         loggedEmail,
         handleLoggedEmail,
         signIn,
+        handleAvatarUrl,
+        handleCoverUrl,
         signOut,
+        me,
       }}
     >
       {children}

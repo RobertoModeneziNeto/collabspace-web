@@ -9,7 +9,6 @@ interface IUser {
 
 interface IReaction {
   id: string;
-  userId: string;
   entityType: 1 | 2 | 3 | 4 | 5 | 6;
   reactedAt: string;
   user: IUser;

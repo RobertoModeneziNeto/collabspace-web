@@ -6,7 +6,8 @@ interface User {
   email: string;
   telephone: string | null;
   birthDate: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
+  coverUrl: string | null;
   createdAt: string;
 }
 
