@@ -55,6 +55,7 @@ interface IUpdateCoverRequest {
 type IUpdateCoverResponse = AppResponse;
 
 export type {
+  IUser,
   ICreateUserRequest,
   ICreateUserResponse,
   IListUserByIdRequest,
@@ -63,5 +64,4 @@ export type {
   IUpdateAvatarResponse,
   IUpdateCoverRequest,
   IUpdateCoverResponse,
-  IUser,
 };

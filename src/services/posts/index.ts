@@ -1,7 +1,10 @@
 import api from "../Api/api";
+
 import {
   ICreatePostRequest,
   ICreatePostResponse,
+  IDeletePostRequest,
+  IDeletePostResponse,
   IListAllPostsResponse,
 } from "./types";
 
@@ -22,9 +25,20 @@ const createPost = async ({
   return response.data;
 };
 
+const deletePost = async ({
+  id,
+}: IDeletePostRequest): Promise<IDeletePostResponse> => {
+  const response = await api
+    .delete(`/posts/${id}`)
+    .then((res) => res)
+    .catch((err) => err);
+
+  return response.data;
+};
+
 const listAllPosts = async (
   page = 0,
-  limit = 50,
+  limit = 10,
 ): Promise<IListAllPostsResponse> => {
   const response = await api
     .get(`/posts?page=${page}&limit=${limit}`)
@@ -34,4 +48,4 @@ const listAllPosts = async (
   return response.data;
 };
 
-export { createPost, listAllPosts };
+export { createPost, deletePost, listAllPosts };

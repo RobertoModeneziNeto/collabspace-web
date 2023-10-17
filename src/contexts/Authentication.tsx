@@ -5,18 +5,22 @@ import {
   useCallback,
   ReactNode,
 } from "react";
-import { User } from "../services/Sessions/types";
-import { session } from "../services/Sessions";
-import api from "../services/Api/api";
-import usePersistedState from "../hooks/usePersistedState";
+
 import { useNavigate } from "react-router-dom";
 
-interface SigInRequest {
+import { User } from "../services/sessions/types";
+
+import { session } from "../services/sessions";
+
+import api from "../services/Api/api";
+import usePersistedState from "../hooks/usePersistedState";
+
+interface SignInRequest {
   email: string;
   password: string;
 }
 
-interface SigInResponse {
+interface SignInResponse {
   result: "success" | "error";
   message: string;
 }
@@ -28,9 +32,9 @@ interface AuthenticationContextType {
   token: string;
   loggedEmail: string;
   handleLoggedEmail: (email: string) => void;
-  signIn(data: SigInRequest): Promise<SigInResponse>;
   handleAvatarUrl: (avatarUrl: string) => void;
   handleCoverUrl: (coverUrl: string) => void;
+  signIn(data: SignInRequest): Promise<SignInResponse>;
   signOut(): void;
   me(id?: string): void;
 }
@@ -44,10 +48,12 @@ const AuthenticationContext = createContext<AuthenticationContextType>(
 );
 
 const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
-  const [user, setUser] = usePersistedState<Partial<User> | null>("user", null);
-  const [token, setToken] = usePersistedState("token", "");
+  const navigate = useNavigate();
 
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = usePersistedState<Partial<User> | null>("user", null);
+  const [token, setToken] = usePersistedState<string>("token", "");
+
+  const [loading, setLoading] = useState<boolean>(false);
   const [loggedEmail, setLoggedEmail] = useState<string>("");
 
   const handleLoggedEmail = useCallback(
@@ -55,35 +61,6 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
       setLoggedEmail(email);
     },
     [setLoggedEmail],
-  );
-
-  const navigate = useNavigate();
-
-  const signIn = useCallback(
-    async ({ email, password }: SigInRequest): Promise<SigInResponse> => {
-      setLoading(true);
-
-      try {
-        const { result, message, data } = await session({ email, password });
-
-        if (result === "success") {
-          if (data) {
-            setUser(data?.user);
-            setToken(data?.token);
-
-            api.defaults.headers.authorization = `Bearer ${data.token}`;
-          }
-        }
-
-        setLoading(false);
-
-        return { result, message };
-      } catch (error: any) {
-        setLoading(false);
-        return { result: "error", message: error.message };
-      }
-    },
-    [setUser, setToken],
   );
 
   const handleAvatarUrl = useCallback(
@@ -106,12 +83,39 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
     [setUser],
   );
 
+  const signIn = useCallback(
+    async ({ email, password }: SignInRequest): Promise<SignInResponse> => {
+      setLoading(true);
+
+      try {
+        const { result, message, data } = await session({ email, password });
+
+        if (result === "success") {
+          if (data) {
+            setUser(data.user);
+            setToken(data.token);
+
+            api.defaults.headers.authorization = `Bearer ${data.token}`;
+          }
+        }
+
+        setLoading(false);
+
+        return { result, message };
+      } catch (error: any) {
+        setLoading(false);
+        return { result: "error", message: error.message };
+      }
+    },
+    [setUser, setToken],
+  );
+
   const signOut = () => {
     setUser(null);
     setToken("");
   };
 
-  const me = (id: string) => {
+  const me = (id?: string) => {
     if (id) navigate(`/me/${id}`);
   };
 
@@ -124,9 +128,9 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
         token,
         loggedEmail,
         handleLoggedEmail,
-        signIn,
         handleAvatarUrl,
         handleCoverUrl,
+        signIn,
         signOut,
         me,
       }}

@@ -43,7 +43,6 @@ export const AuthorAndTime = styled.div`
   }
 
   time {
-    max-width: max-content;
     font-size: 0.75rem;
     color: var(--zinc-500);
   }
@@ -55,8 +54,9 @@ export const Interactions = styled.div`
   gap: 8px;
   padding: 0 8px;
 
-  font-size: 0.875rem;
   color: var(--zinc-400);
+  font-size: 0.875rem;
+
   svg {
     margin-bottom: 2px;
     color: var(--emerald-600);
@@ -65,6 +65,7 @@ export const Interactions = styled.div`
 
   span {
     cursor: pointer;
+
     &:hover {
       text-decoration: underline;
     }
@@ -75,12 +76,12 @@ export const ButtonDelete = styled.button`
   position: absolute;
   top: 0;
   right: 0;
-  background: transparent;
+
   border: 0;
   outline: 0;
-  transition: all 0.15s;
-
   color: var(--zinc-500);
+  background: transparent;
+  transition: all 0.15s;
 
   cursor: pointer;
 

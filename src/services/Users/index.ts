@@ -5,10 +5,10 @@ import {
   ICreateUserResponse,
   IListUserByIdRequest,
   IListUserByIdResponse,
-  IUpdateAvatarResponse,
   IUpdateAvatarRequest,
-  IUpdateCoverResponse,
+  IUpdateAvatarResponse,
   IUpdateCoverRequest,
+  IUpdateCoverResponse,
 } from "./types";
 
 const createUser = async ({

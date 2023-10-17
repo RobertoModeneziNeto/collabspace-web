@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 interface AppResponse {
   statusCode: number;
   result: "success" | "error";

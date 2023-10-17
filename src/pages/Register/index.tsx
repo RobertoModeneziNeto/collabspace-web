@@ -1,9 +1,9 @@
 import { useState, useCallback, FormEvent } from "react";
-import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import { createUser } from "../../services/Users";
-import { useAuthentication } from "../../contexts/AuthContext";
+import { createUser } from "../../services/users";
+import { useAuthentication } from "../../contexts/Authentication";
 
 import { Spiner } from "../../assets/sources";
 
@@ -16,13 +16,16 @@ import {
   Input,
   AreaEmail,
   AreaPassword,
-  Button,
   PasswordMeter,
+  Button,
   LinkLogin,
 } from "./styles";
 
 const Register: React.FC = () => {
   const { handleLoggedEmail } = useAuthentication();
+
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
   const [email, setEmail] = useState("");
@@ -42,8 +45,6 @@ const Register: React.FC = () => {
   const isPasswordStrong = password.match(
     /(?=^.{8,}$)((?=.*\d)(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
   );
-
-  const navigate = useNavigate();
 
   const handleLogin = useCallback(() => {
     navigate("/");
@@ -67,10 +68,11 @@ const Register: React.FC = () => {
 
         if (result === "success") {
           if (data) {
+            toast.success(message);
+
             handleLoggedEmail(data.email);
+            handleLogin();
           }
-          toast.success(message);
-          handleLogin();
         }
 
         if (result === "error") toast.error(message);
@@ -95,10 +97,10 @@ const Register: React.FC = () => {
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit} autoComplete="on">
+      <Form autoComplete="on" onSubmit={handleSubmit}>
         <h1>Cadastre-se</h1>
 
-        {email && !isEmail && <ErrorAlert>o e-mail não é valido!</ErrorAlert>}
+        {email && !isEmail && <ErrorAlert>O e-mail não é válido!</ErrorAlert>}
         {confirmEmail && !isTheSameEmails && (
           <ErrorAlert>Os e-mails não coincidem!</ErrorAlert>
         )}
@@ -113,8 +115,8 @@ const Register: React.FC = () => {
             type="text"
             id="name"
             placeholder="Seu nome completo"
-            required
             value={name}
+            required
             onChange={(e) => {
               setName(e.target.value);
             }}
@@ -144,8 +146,8 @@ const Register: React.FC = () => {
             type="text"
             id="email"
             placeholder="Seu e-mail"
-            required
             value={email}
+            required
             onChange={(e) => {
               setEmail(e.target.value);
             }}
@@ -155,8 +157,8 @@ const Register: React.FC = () => {
             type="text"
             id="confirmarEmail"
             placeholder="Confirmar e-mail"
-            required
             value={confirmEmail}
+            required
             onChange={(e) => {
               setConfirmEmail(e.target.value);
             }}
@@ -175,8 +177,8 @@ const Register: React.FC = () => {
             type="password"
             id="password"
             placeholder="Sua senha"
-            required
             value={password}
+            required
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -188,8 +190,8 @@ const Register: React.FC = () => {
             type="password"
             id="confirmPassword"
             placeholder="Confirmar senha"
-            required
             value={confirmPassword}
+            required
             onChange={(e) => {
               setConfirmPassword(e.target.value);
             }}
@@ -209,11 +211,11 @@ const Register: React.FC = () => {
             !isPasswordStrong
           }
         >
-          {loading ? <Spiner /> : "Cadastrar-se"}
+          {loading ? <Spiner /> : "Cadastrar"}
         </Button>
 
         <LinkLogin>
-          <p>Já tem conta?</p>
+          <p>Já sou cadastrado?</p>
           <a onClick={handleLogin}>Entrar agora</a>
         </LinkLogin>
       </Form>

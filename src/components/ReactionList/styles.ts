@@ -8,7 +8,7 @@ export const Container = styled.div`
   overflow-y: hidden;
 `;
 
-export const Title = styled.div`
+export const Title = styled.h1`
   padding: 1rem 1rem 0;
   font-size: 1.5rem;
   font-weight: 400;
@@ -22,9 +22,7 @@ export const Navbar = styled.div`
 
 export const Reactions = styled.div`
   height: 100%;
-  overflow-y: scroll;
-
-  padding-bottom: 1rem;
+  overflow-y: auto;
 
   &::-webkit-scrollbar-track {
     background: var(--zinc-900);
@@ -36,12 +34,6 @@ export const Reactions = styled.div`
 
   &::-webkit-scrollbar {
     width: 0.5rem;
-  }
-
-  span {
-    font-size: 1rem;
-    font-weight: 300;
-    color: var(--zinc-400);
   }
 `;
 
@@ -61,18 +53,19 @@ export const Reaction = styled.div`
 export const AuthorInfo = styled.div`
   h1 {
     font-size: 1.125rem;
+    font-weight: 600;
     color: var(--zinc-200);
   }
 
   p {
-    font-weight: 0.875rem;
+    font-size: 0.875rem;
     color: var(--zinc-400);
   }
 
   cursor: pointer;
 `;
 
-export const NoReaction = styled.div`
+export const NoReactions = styled.div`
   height: 100%;
 
   display: flex;

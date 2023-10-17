@@ -1,18 +1,25 @@
+import { useAuthentication } from "../../contexts/Authentication";
+
 import AvatarSquare from "../AvatarSquare";
 
 import { Container, Info } from "./styles";
 
-const FriendCard: React.FC = () => {
+interface FriendCardProps {
+  id: string;
+  name: string;
+  avatarUrl: string;
+}
+
+const FriendCard: React.FC<FriendCardProps> = ({ id, name, avatarUrl }) => {
+  const { me } = useAuthentication();
+
   return (
     <Container>
-      <AvatarSquare
-        size="72px"
-        src="https://cdn.discordapp.com/attachments/1013116744946171915/1143688020361490432/image.png"
-      />
+      <AvatarSquare size="72px" avatar={avatarUrl} onClick={() => me(id)} />
 
-      <Info>
-        <h1>Paulo Junior</h1>
-        <p>8 amigos em comum</p>
+      <Info onClick={() => me(id)}>
+        <h1>{name}</h1>
+        <p>268 amigos em comum</p>
       </Info>
     </Container>
   );

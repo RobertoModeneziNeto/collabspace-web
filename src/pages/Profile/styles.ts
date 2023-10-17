@@ -1,4 +1,8 @@
-import { styled } from "styled-components";
+import { styled, css } from "styled-components";
+
+interface FriendshipButtonProps {
+  $relationship: number;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -11,6 +15,7 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
+
   margin-bottom: 2rem;
 `;
 
@@ -34,9 +39,8 @@ export const EditCoverButton = styled.button`
   align-items: center;
   justify-content: center;
   padding: 6px;
-
-  border: 0;
   border-radius: 100%;
+  border: 0;
   outline: 0;
   background: var(--zinc-200);
   color: var(--emerald-600);
@@ -45,8 +49,8 @@ export const EditCoverButton = styled.button`
   cursor: pointer;
 
   &:hover {
-    background: var(--emerald-600);
-    color: var(--zinc-200);
+    background: var(--zinc-300);
+    color: var(--emerald-600);
   }
 `;
 
@@ -56,6 +60,7 @@ export const Cover = styled.img`
   height: 192px;
   object-fit: cover;
   border-radius: 8px 8px 0 0;
+  background: var(--zinc-700);
 `;
 
 export const EditInfoButton = styled.button`
@@ -67,7 +72,6 @@ export const EditInfoButton = styled.button`
   align-items: center;
   justify-content: center;
   padding: 0 6px;
-
   border: 0;
   outline: 0;
   background: transparent;
@@ -92,11 +96,13 @@ export const UserInfo = styled.div`
 
 export const General = styled.div`
   flex: 0.7;
+
   h1 {
     color: var(--zinc-100);
     font-size: 1.5rem;
     font-weight: 500;
   }
+
   p {
     color: var(--zinc-300);
     font-size: 0.875rem;
@@ -104,19 +110,50 @@ export const General = styled.div`
     font-weight: 300;
   }
 `;
+
 export const Total = styled.div`
   display: flex;
   gap: 2rem;
   margin-top: 1.5rem;
 
   span {
-    color: var(--zinc-100);
+    color: var(--zinc-300);
     font-weight: 300;
 
     &:hover {
       text-decoration: underline;
       cursor: pointer;
     }
+  }
+`;
+
+export const FriendshipArea = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-top: 1rem;
+`;
+
+export const FriendshipButton = styled.button<FriendshipButtonProps>`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: ${({ $relationship }) => {
+    if ($relationship === 1 || $relationship === 2)
+      return css`var(--emerald-600)`;
+    if ($relationship === 3) return css`var(--red-500)`;
+    if ($relationship === 4) return css`var(--blue-600)`;
+  }};
+  color: var(--white);
+  border: 0;
+  outline: 0;
+  padding: 0.5rem;
+  border-radius: 8px;
+  transition: 0.15s all;
+
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(90%);
   }
 `;
 
@@ -131,6 +168,7 @@ export const Contact = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
+
     color: var(--zinc-300);
     font-weight: 300;
   }
@@ -165,8 +203,8 @@ export const AreaFriendButton = styled.div`
   button {
     height: 40px;
     padding: 0 1rem;
-    border: 1px solid var(--zinc-700);
     outline: 0;
+    border: 1px solid var(--zinc-700);
     border-radius: 8px;
     font-weight: 500;
     color: var(--zinc-300);
@@ -203,6 +241,7 @@ export const RequestList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
   margin-top: 1rem;
 `;
 
@@ -239,8 +278,8 @@ export const ButtonEdit = styled.button`
   padding: 1.25rem 1rem;
   border: 0;
   outline: 0;
-  color: var(--white);
   border-radius: 4px;
+  color: var(--white);
   font-weight: 600;
   background: var(--emerald-500);
   transition: all 0.15s;

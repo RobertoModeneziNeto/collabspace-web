@@ -1,4 +1,5 @@
 import { AppResponse } from "../../Api/types";
+
 import { IComment } from "../../comments/types";
 import { IReaction } from "../../reactions/types";
 
@@ -30,6 +31,12 @@ interface ICreatePostResponse extends AppResponse {
   data?: IPost;
 }
 
+interface IDeletePostRequest {
+  id: string;
+}
+
+type IDeletePostResponse = AppResponse;
+
 interface IListAllPostsResponse extends AppResponse {
   data?: {
     total: number;
@@ -41,5 +48,7 @@ export type {
   IPost,
   ICreatePostRequest,
   ICreatePostResponse,
+  IDeletePostRequest,
+  IDeletePostResponse,
   IListAllPostsResponse,
 };

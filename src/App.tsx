@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 
 import AppRoutes from "./routes";
 
-import { AuthenticationProvider } from "./contexts/AuthContext";
+import { AuthenticationProvider } from "./contexts/Authentication";
 
 import "./styles/main.css";
 import "react-toastify/dist/ReactToastify.css";

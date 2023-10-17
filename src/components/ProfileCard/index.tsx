@@ -1,16 +1,16 @@
-import AvatarSquare from "../AvatarSquare";
-
-import { useAuthentication } from "../../contexts/AuthContext";
+import { useAuthentication } from "../../contexts/Authentication";
 
 import {
-  ButtonEdit,
   Container,
-  Content,
-  Cover,
-  Divider,
-  Footer,
   Header,
+  Cover,
+  Content,
+  Divider,
+  ButtonEdit,
+  Footer,
 } from "./styles";
+
+import AvatarSquare from "../AvatarSquare";
 
 const ProfileCard: React.FC = () => {
   const { user, me } = useAuthentication();
@@ -33,7 +33,7 @@ const ProfileCard: React.FC = () => {
       <Divider />
 
       <Footer>
-        <ButtonEdit>Editar perfil</ButtonEdit>
+        <ButtonEdit>Editar seu perfil</ButtonEdit>
       </Footer>
     </Container>
   );

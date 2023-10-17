@@ -1,14 +1,14 @@
-import { useState, useCallback, useEffect } from "react";
-
+import { useState, useEffect, useCallback } from "react";
 import { toast } from "react-toastify";
 
 import LayoutDefault from "../../layouts/Default";
 
+import ProfileCard from "../../components/ProfileCard";
 import CreatePost from "../../components/CreatePost";
 import Post from "../../components/Post";
-import ProfileCard from "../../components/ProfileCard";
 
 import { Container, Posts } from "./styles";
+
 import { IPost } from "../../services/posts/types";
 import { listAllPosts } from "../../services/posts";
 
@@ -19,21 +19,27 @@ const Feed: React.FC = () => {
     try {
       const { result, message, data } = await listAllPosts();
 
-      if (result === "success") if (data) setPosts(data.posts);
+      if (result === "success") {
+        if (data) setPosts(data.posts);
+      }
 
       if (result === "error") toast.error(message);
     } catch (error: any) {
-      toast.error(`Erro ao listar posts ${error.message}`);
+      toast.error(error.message);
     }
   }, []);
 
   const handleAddPost = (post: IPost) =>
     setPosts((prevState) => {
       const posts = [...prevState];
+
       posts.unshift(post);
 
       return posts;
     });
+
+  const handleRemovePost = (id: string) =>
+    setPosts((prevState) => prevState.filter((post) => post.id !== id));
 
   useEffect(() => {
     handleListAllPosts();
@@ -60,6 +66,7 @@ const Feed: React.FC = () => {
               comments={post.comments}
               reactions={post.reactions}
               publishedAt={post.publishedAt}
+              onDeletePost={handleRemovePost}
             />
           ))}
         </Posts>

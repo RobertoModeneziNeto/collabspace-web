@@ -1,6 +1,6 @@
 import { AppResponse } from "../../Api/types";
 
-interface IUser {
+interface IUserReaction {
   id: string;
   name: string;
   email: string;
@@ -11,7 +11,7 @@ interface IReaction {
   id: string;
   entityType: 1 | 2 | 3 | 4 | 5 | 6;
   reactedAt: string;
-  user: IUser;
+  user: IUserReaction;
 }
 
 interface ICreateReactionRequest {
@@ -19,6 +19,7 @@ interface ICreateReactionRequest {
   commentId?: string;
   entityType: 1 | 2 | 3 | 4 | 5 | 6;
 }
+
 interface ICreateReactionResponse extends AppResponse {
   data?: IReaction;
 }
@@ -30,9 +31,9 @@ interface IDeleteReactionRequest {
 type IDeleteReactionResponse = AppResponse;
 
 export type {
+  IReaction,
   ICreateReactionRequest,
   ICreateReactionResponse,
-  IReaction,
   IDeleteReactionRequest,
   IDeleteReactionResponse,
 };

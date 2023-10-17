@@ -1,16 +1,15 @@
 import { styled } from "styled-components";
 
-interface ContaineProps {
+interface ContainerProps {
   $size: string;
 }
 
-export const Container = styled.img<ContaineProps>`
-  display: block;
+export const Container = styled.img<ContainerProps>`
   width: ${({ $size }) => $size};
   height: ${({ $size }) => $size};
-  border-radius: 100%;
-
+  display: block;
   object-fit: cover;
+  border-radius: 100%;
 
   cursor: pointer;
 `;

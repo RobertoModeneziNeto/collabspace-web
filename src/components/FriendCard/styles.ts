@@ -7,15 +7,17 @@ export const Container = styled.div`
 `;
 
 export const Info = styled.div`
+  cursor: pointer;
+
   h1 {
     font-size: 1.125rem;
-    font-weight: 500;
     color: var(--zinc-200);
+    font-weight: 500;
   }
 
   p {
     font-size: 0.875rem;
-    font-weight: 200;
     color: var(--zinc-200);
+    font-weight: 200;
   }
 `;

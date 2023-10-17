@@ -14,9 +14,12 @@
 
   --emerald-500: #10b981;
   --emerald-600: #059669;
+  --emerald-700: #047857;
   --emerald-800: #065f46;
 
-  --red-500: #ef4444
+  --red-500: #ef4444;
+
+  --blue-600: #2563eb;
 }
 
 * {
@@ -27,8 +30,10 @@
 
 body, input, textarea, button {
   font-family: 'Poppins', sans-serif;
+
   -webkit-font-smoothing: antialiased;
 }
+
 /* Custom scrollbar body */
 body {
   overflow-x: hidden;
@@ -40,12 +45,10 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
   background: var(--zinc-600);
-  
 }
 
 body::-webkit-scrollbar {
-  width: 12px;
-  
+  width: 0.5rem;
 }
 
 /* Custom scrollbar textarea */
@@ -54,19 +57,15 @@ textarea {
 }
 
 textarea::-webkit-scrollbar-track {
-  margin: 6px 0;
+  margin: 8px 0;
   background: var(--zinc-900);
-  
 }
 
 textarea::-webkit-scrollbar-thumb {
   border-radius: 9999px;
   background: var(--zinc-600);
-  
 }
 
 textarea::-webkit-scrollbar {
   width: 4px;
-  
 }
-

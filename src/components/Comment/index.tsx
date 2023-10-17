@@ -1,47 +1,51 @@
-import { Trash, ThumbsUp } from "phosphor-react";
-
-import AvatarSquare from "../AvatarSquare";
-import {
-  AuthorAndTime,
-  ButtonDelete,
-  CommentBox,
-  Container,
-  InputArea,
-  Interactions,
-} from "./styles";
-import { DiffToString } from "../../utils/date";
+import { useState, useCallback } from "react";
 import moment from "moment";
 
-import { useState, useCallback } from "react";
+import { Trash, ThumbsUp } from "phosphor-react";
 
 import { createReaction, deleteReaction } from "../../services/reactions";
-import { toast } from "react-toastify";
 import { IReaction } from "../../services/reactions/types";
-import { useAuthentication } from "../../contexts/AuthContext";
+
+import AvatarSquare from "../AvatarSquare";
 import Modal from "../Modal";
 import ReactionList from "../ReactionList";
 
+import { DiffToString } from "../../utils/date";
+
+import { useAuthentication } from "../../contexts/Authentication";
+
+import {
+  Container,
+  CommentBox,
+  InputArea,
+  AuthorAndTime,
+  Interactions,
+  ButtonDelete,
+} from "./styles";
+
+import { toast } from "react-toastify";
+
 interface CommentProps {
-  postAuhtorId: string;
+  postAuthorId: string;
   authorId: string;
   authorAvatar: string | null;
   authorName: string;
-  commentedAt: string;
   commentId: string;
   content: string;
   reactions: IReaction[];
+  commentedAt: string;
   onDelete(id: string): void;
 }
 
 const Comment: React.FC<CommentProps> = ({
-  postAuhtorId,
+  postAuthorId,
   authorId,
   authorAvatar,
   authorName,
-  commentedAt,
-  content,
   commentId,
+  content,
   reactions = [],
+  commentedAt,
   onDelete,
 }) => {
   const { user, me } = useAuthentication();
@@ -54,7 +58,7 @@ const Comment: React.FC<CommentProps> = ({
 
   const [modalReactions, setModalReactions] = useState(false);
 
-  const handleCreateReactions = useCallback(async () => {
+  const handleCreateReaction = useCallback(async () => {
     try {
       const { result, data } = await createReaction({
         commentId,
@@ -63,8 +67,6 @@ const Comment: React.FC<CommentProps> = ({
 
       if (result === "success") {
         if (data) {
-          console.log(data);
-
           setCommentReactions((prevState) => {
             const commentReactions = [...prevState];
 
@@ -81,7 +83,7 @@ const Comment: React.FC<CommentProps> = ({
     }
   }, [commentId]);
 
-  const handleDeleteReactions = useCallback(async (reactionId: string) => {
+  const handleDeleteReaction = useCallback(async (reactionId: string) => {
     try {
       const { result } = await deleteReaction({
         reactionId,
@@ -91,6 +93,8 @@ const Comment: React.FC<CommentProps> = ({
         setCommentReactions((prevState) =>
           prevState.filter((reaction) => reaction.id !== reactionId),
         );
+
+        setUserReacted(false);
       }
     } catch (error: any) {
       toast.error(error.message);
@@ -103,17 +107,12 @@ const Comment: React.FC<CommentProps> = ({
         (reaction) => reaction.user.id === user?.id,
       );
 
-      if (reaction) {
-        handleDeleteReactions(reaction.id);
-
-        setUserReacted(false);
-      }
+      if (reaction) handleDeleteReaction(reaction.id);
 
       return;
     }
 
-    handleCreateReactions();
-    setUserReacted(true);
+    handleCreateReaction();
   }
 
   function toggleModalReactions() {
@@ -132,8 +131,7 @@ const Comment: React.FC<CommentProps> = ({
               Cerca de {DiffToString(moment().diff(commentedAt, "seconds"))}
             </time>
 
-            {(user && user.id === authorId) ||
-            (user && user.id === postAuhtorId) ? (
+            {(user && user.id === authorId) || user?.id === postAuthorId ? (
               <ButtonDelete onClick={() => onDelete(commentId)}>
                 <Trash size={22} />
               </ButtonDelete>
@@ -145,16 +143,16 @@ const Comment: React.FC<CommentProps> = ({
 
         <Interactions>
           <ThumbsUp
-            size={18}
             onClick={toggleReaction}
+            size={18}
             weight={userReacted ? "fill" : "regular"}
           />
-          <span> • </span>
-          <span onClick={toggleModalReactions}> {commentReactions.length}</span>
+          <span>•</span>
+          <span onClick={toggleModalReactions}>{commentReactions.length}</span>
         </Interactions>
       </CommentBox>
 
-      <Modal isOpen={modalReactions} onclose={toggleModalReactions}>
+      <Modal isOpen={modalReactions} onClose={toggleModalReactions}>
         <ReactionList data={commentReactions} />
       </Modal>
     </Container>

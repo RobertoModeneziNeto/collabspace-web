@@ -21,8 +21,8 @@ export const Container = styled.div`
 
 export const Content = styled.div<ContentProps>`
   position: relative;
-  width: ${({ $width }) => $width};
 
+  width: ${({ $width }) => $width};
   height: ${({ $height }) => $height};
 
   background: var(--zinc-800);

@@ -8,7 +8,6 @@ export const Container = styled.textarea`
   border: 0;
   outline: 0;
   resize: none;
-
   padding: 1rem;
   border-radius: 8px;
 

@@ -1,15 +1,15 @@
-import { css, styled } from "styled-components";
+import { styled, css } from "styled-components";
 
-interface ContaineProps {
+interface ContainerProps {
   $size: string;
   $borderEffect?: boolean;
 }
 
-export const Container = styled.img<ContaineProps>`
+export const Container = styled.img<ContainerProps>`
   width: ${({ $size }) => $size};
   height: ${({ $size }) => $size};
-  min-height: 56px;
   min-width: 56px;
+  min-height: 56px;
   background: white;
   border-radius: 6px;
   object-fit: cover;

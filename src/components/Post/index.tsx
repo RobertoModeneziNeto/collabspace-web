@@ -1,13 +1,14 @@
 import { useState, useCallback, FormEvent } from "react";
-
-import { ThumbsUp, ChatCircleText } from "phosphor-react";
+import { ThumbsUp, ChatCircleText, DotsThree, Trash } from "phosphor-react";
 import { toast } from "react-toastify";
+
 import moment from "moment";
 
 import { DiffToString } from "../../utils/date";
 
-import { useAuthentication } from "../../contexts/AuthContext";
+import { useAuthentication } from "../../contexts/Authentication";
 
+import { deletePost } from "../../services/posts";
 import { createComment, deleteComment } from "../../services/comments";
 import { createReaction, deleteReaction } from "../../services/reactions";
 import { IComment } from "../../services/comments/types";
@@ -27,17 +28,20 @@ import {
   AuthorInfo,
   Content,
   Description,
-  Hastags,
+  Hashtags,
   Divider,
   Interactions,
-  InteractionsInfo,
+  InteractionInfo,
   CountReaction,
   CountComment,
-  InteractionsAction,
+  InteractionAction,
   ButtonAction,
   CommentArea,
   CommentForm,
   Comments,
+  OptionsArea,
+  BoxOptions,
+  Option,
 } from "./styles";
 
 interface PostProps {
@@ -51,6 +55,7 @@ interface PostProps {
   comments: IComment[];
   reactions: IReaction[];
   publishedAt: string;
+  onDeletePost(id: string): void;
 }
 
 const Post: React.FC<PostProps> = ({
@@ -64,6 +69,7 @@ const Post: React.FC<PostProps> = ({
   comments = [],
   reactions = [],
   publishedAt,
+  onDeletePost,
 }) => {
   const { user, me } = useAuthentication();
 
@@ -78,6 +84,22 @@ const Post: React.FC<PostProps> = ({
   );
 
   const [modalReactions, setModalReactions] = useState(false);
+  const [boxOptions, setBoxOption] = useState(false);
+
+  const handleDeletePost = useCallback(async () => {
+    try {
+      const { result, message } = await deletePost({ id: postId });
+
+      if (result === "success") {
+        onDeletePost(postId);
+        toast.success(message);
+      }
+
+      if (result === "error") toast.error(message);
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  }, [postId, onDeletePost]);
 
   const handleCreateComment = useCallback(
     async (e: FormEvent) => {
@@ -196,8 +218,25 @@ const Post: React.FC<PostProps> = ({
     setModalReactions(!modalReactions);
   }
 
+  function toggleBoxOptions() {
+    setBoxOption(!boxOptions);
+  }
+
   return (
     <Container>
+      {authorId === user?.id && (
+        <OptionsArea>
+          <DotsThree size={24} weight="bold" onClick={toggleBoxOptions} />
+
+          <BoxOptions $boxOptions={boxOptions}>
+            <Option onClick={handleDeletePost}>
+              <Trash size={24} weight="fill" />
+              Excluir publicação
+            </Option>
+          </BoxOptions>
+        </OptionsArea>
+      )}
+
       <Header>
         <Author>
           <AvatarSquare
@@ -222,13 +261,13 @@ const Post: React.FC<PostProps> = ({
           <p>{content}</p>
         </Description>
 
-        <Hastags>
+        <Hashtags>
           <span>{tags}</span>
-        </Hastags>
+        </Hashtags>
       </Content>
 
       <Interactions>
-        <InteractionsInfo>
+        <InteractionInfo>
           <CountReaction onClick={toggleModalReactions}>
             <span>
               <ThumbsUp size={19} weight={userReacted ? "fill" : "bold"} />
@@ -242,9 +281,9 @@ const Post: React.FC<PostProps> = ({
               {postComments.length} comentários
             </span>
           </CountComment>
-        </InteractionsInfo>
+        </InteractionInfo>
 
-        <InteractionsAction>
+        <InteractionAction>
           <ButtonAction onClick={toggleReaction}>
             <ThumbsUp size={22} weight={userReacted ? "fill" : "regular"} />
             Reagir
@@ -254,7 +293,7 @@ const Post: React.FC<PostProps> = ({
             <ChatCircleText size={22} />
             Comentar
           </ButtonAction>
-        </InteractionsAction>
+        </InteractionAction>
       </Interactions>
 
       <CommentArea $commentArea={commentArea}>
@@ -279,7 +318,7 @@ const Post: React.FC<PostProps> = ({
           {postComments.map((comment) => (
             <Comment
               key={comment.id}
-              postAuhtorId={authorId}
+              postAuthorId={authorId}
               authorId={comment.user.id}
               authorAvatar={comment.user.avatarUrl}
               authorName={comment.user.name}
@@ -293,7 +332,7 @@ const Post: React.FC<PostProps> = ({
         </Comments>
       </CommentArea>
 
-      <Modal isOpen={modalReactions} onclose={toggleModalReactions}>
+      <Modal isOpen={modalReactions} onClose={toggleModalReactions}>
         <ReactionList data={postReactions} />
       </Modal>
     </Container>
