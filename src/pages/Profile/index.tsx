@@ -76,7 +76,6 @@ const Profile: React.FC = () => {
     user: userLogged,
     handleAvatarUrl,
     handleCoverUrl,
-    signOut,
   } = useAuthentication();
 
   const [user, setUser] = useState<IUser | null>(null);
@@ -516,10 +515,6 @@ const Profile: React.FC = () => {
               </RequestList>
             </Requests>
           )}
-
-          <a style={{ color: "white" }} onClick={signOut}>
-            Sair
-          </a>
         </Sidebar>
 
         <Modal
