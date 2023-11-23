@@ -57,6 +57,7 @@ const UpdateProfile: React.FC = () => {
 
   const [name, setName] = useState(user?.name || "");
   const [telephone, setTelephone] = useState(user?.telephone || "");
+  const [bio, setBio] = useState("");
   const [birthDate, setBirthDate] = useState(user?.birthDate || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -317,9 +318,9 @@ const UpdateProfile: React.FC = () => {
               <InputArea
                 name="bio"
                 rows={4}
-                value={""}
+                value={bio}
                 onChange={(e) => {
-                  setName(e.target.value);
+                  setBio(e.target.value);
                 }}
                 placeholder="Fale mais sobre você ..."
               />
