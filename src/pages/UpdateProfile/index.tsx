@@ -21,6 +21,8 @@ import { updatePassword, updateUser } from "../../services/users";
 import Button from "../../components/Button";
 import { getAddress } from "../../services/viacep";
 import InputArea from "../../components/InputArea";
+import { formatarCEP } from "../../utils/formatCep";
+import { formatarTelefone } from "../../utils/telephone";
 
 const provinces = [
   { key: "AC", value: "Acre" },
@@ -214,47 +216,6 @@ const UpdateProfile: React.FC = () => {
       toast.error(error.message);
     }
   }, [cep]);
-
-  function formatarTelefone(telefone: string): string {
-    // Remove caracteres não numéricos
-    const telefoneNumerico = telefone.replace(/\D/g, "");
-
-    // Verifica se o número de telefone possui a quantidade correta de dígitos
-    if (telefoneNumerico.length !== 11) {
-      // Número de telefone inválido, retorna o valor original
-      return telefone;
-    }
-
-    // Formata o número de telefone com o padrão (XX) 9XXXX-XXXX
-    const telefoneFormatado = `(${telefoneNumerico.substring(
-      0,
-      2,
-    )}) ${telefoneNumerico.substring(2, 3)}${telefoneNumerico.substring(
-      3,
-      7,
-    )}-${telefoneNumerico.substring(7)}`;
-
-    return telefoneFormatado;
-  }
-
-  function formatarCEP(cep: string): string {
-    // Remove caracteres não numéricos
-    const cepNumerico = cep.replace(/\D/g, "");
-
-    // Verifica se o CEP possui a quantidade correta de dígitos
-    if (cepNumerico.length !== 8) {
-      // CEP inválido, retorna o valor original
-      return cep;
-    }
-
-    // Formata o CEP com o padrão XXXXX-XXX
-    const cepFormatado = `${cepNumerico.substring(
-      0,
-      5,
-    )}-${cepNumerico.substring(5)}`;
-
-    return cepFormatado;
-  }
 
   return (
     <LayoutDefault>
