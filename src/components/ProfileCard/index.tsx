@@ -11,9 +11,15 @@ import {
 } from "./styles";
 
 import AvatarSquare from "../AvatarSquare";
+import { useNavigate } from "react-router-dom";
 
 const ProfileCard: React.FC = () => {
   const { user, me } = useAuthentication();
+  const navigate = useNavigate();
+
+  const editProfile = () => {
+    navigate("/updateprofile");
+  };
 
   return (
     <Container>
@@ -33,7 +39,7 @@ const ProfileCard: React.FC = () => {
       <Divider />
 
       <Footer>
-        <ButtonEdit>Editar seu perfil</ButtonEdit>
+        <ButtonEdit onClick={editProfile}>Editar seu perfil</ButtonEdit>
       </Footer>
     </Container>
   );

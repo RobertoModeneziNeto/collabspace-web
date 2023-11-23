@@ -1,4 +1,5 @@
 import { AppResponse } from "../../Api/types";
+import { IAddress } from "../../address/types";
 
 interface User {
   id: string;
@@ -9,6 +10,7 @@ interface User {
   avatarUrl: string | null;
   coverUrl: string | null;
   createdAt: string;
+  address: IAddress[];
 }
 
 interface ISession {

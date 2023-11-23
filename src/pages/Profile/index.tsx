@@ -60,7 +60,6 @@ import {
   ButtonEdit,
   PreviewAvatar,
 } from "./styles";
-
 moment.defineLocale("pt-br", {
   weekdays: "Segunda_Terça_Quarta_Quinta_Sexta_Sábado_Domingo".split("_"),
   months:

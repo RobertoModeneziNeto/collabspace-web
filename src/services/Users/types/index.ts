@@ -42,6 +42,15 @@ interface IListUserByIdResponse extends AppResponse {
   };
 }
 
+interface IUpdateUserRequest {
+  name?: string;
+  telephone?: string;
+  birthDate?: string;
+  bio?: string;
+}
+
+type IUpdateUserResponse = AppResponse;
+
 interface IUpdateAvatarRequest {
   avatarUrl: string;
 }
@@ -54,14 +63,25 @@ interface IUpdateCoverRequest {
 
 type IUpdateCoverResponse = AppResponse;
 
+interface IUpdatePasswordRequest {
+  currentPassword: string;
+  newPassword: string;
+}
+
+type IUpdatePasswordResponse = AppResponse;
+
 export type {
   IUser,
   ICreateUserRequest,
   ICreateUserResponse,
   IListUserByIdRequest,
   IListUserByIdResponse,
+  IUpdateUserRequest,
+  IUpdateUserResponse,
   IUpdateAvatarRequest,
   IUpdateAvatarResponse,
   IUpdateCoverRequest,
   IUpdateCoverResponse,
+  IUpdatePasswordRequest,
+  IUpdatePasswordResponse,
 };
