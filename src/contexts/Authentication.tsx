@@ -36,7 +36,12 @@ interface AuthenticationContextType {
   handleAvatarUrl: (avatarUrl: string) => void;
   handleCoverUrl: (coverUrl: string) => void;
   handleAddress: (address: IAddress[]) => void;
-  handleUser: (name: string, birthDate: string, telephone: string) => void;
+  handleUser: (
+    name: string,
+    bio: string,
+    birthDate: string,
+    telephone: string,
+  ) => void;
   signIn(data: SignInRequest): Promise<SignInResponse>;
   signOut(): void;
   me(id?: string): void;
@@ -68,10 +73,11 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
   );
 
   const handleUser = useCallback(
-    (name: string, birthDate: string, telephone: string) => {
+    (name: string, bio: string, birthDate: string, telephone: string) => {
       setUser((prevState) => ({
         ...prevState,
         name,
+        bio,
         birthDate,
         telephone,
       }));

@@ -44,9 +44,9 @@ interface IListUserByIdResponse extends AppResponse {
 
 interface IUpdateUserRequest {
   name?: string;
+  bio?: string;
   telephone?: string;
   birthDate?: string;
-  bio?: string;
 }
 
 type IUpdateUserResponse = AppResponse;

@@ -4,6 +4,7 @@ import { IAddress } from "../../address/types";
 interface User {
   id: string;
   name: string;
+  bio: string;
   email: string;
   telephone: string | null;
   birthDate: string;

@@ -56,8 +56,8 @@ const UpdateProfile: React.FC = () => {
   const { user, handleAddress, handleUser } = useAuthentication();
 
   const [name, setName] = useState(user?.name || "");
+  const [bio, setBio] = useState(user?.bio || "");
   const [telephone, setTelephone] = useState(user?.telephone || "");
-  const [bio, setBio] = useState("");
   const [birthDate, setBirthDate] = useState(user?.birthDate || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -73,13 +73,14 @@ const UpdateProfile: React.FC = () => {
       try {
         const { result, message } = await updateUser({
           name,
+          bio,
           birthDate,
           telephone,
         });
 
         if (result === "success") {
           toast.success(message);
-          handleUser(name, birthDate, telephone);
+          handleUser(name, bio, birthDate, telephone);
         }
       } catch (error: any) {
         toast.error(error.message);
