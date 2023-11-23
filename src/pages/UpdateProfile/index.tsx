@@ -86,7 +86,7 @@ const UpdateProfile: React.FC = () => {
         toast.error(error.message);
       }
     },
-    [birthDate, handleUser, name, telephone],
+    [bio, birthDate, handleUser, name, telephone],
   );
 
   const handleUpdatePassword = useCallback(
