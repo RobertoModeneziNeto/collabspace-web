@@ -220,6 +220,8 @@ export const AreaFriendButton = styled.div`
   }
 `;
 
+export const PostsPosted = styled.div``;
+
 export const Sidebar = styled.aside`
   width: 25%;
 `;

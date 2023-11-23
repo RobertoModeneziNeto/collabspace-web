@@ -59,7 +59,9 @@ import {
   InputEdit,
   ButtonEdit,
   PreviewAvatar,
+  PostsPosted,
 } from "./styles";
+
 moment.defineLocale("pt-br", {
   weekdays: "Segunda_Terça_Quarta_Quinta_Sexta_Sábado_Domingo".split("_"),
   months:
@@ -492,6 +494,8 @@ const Profile: React.FC = () => {
               <button>Ver todos os amigos</button>
             </AreaFriendButton>
           </Friends>
+
+          <PostsPosted></PostsPosted>
         </Content>
 
         <Sidebar>

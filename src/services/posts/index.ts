@@ -48,4 +48,16 @@ const listAllPosts = async (
   return response.data;
 };
 
-export { createPost, deletePost, listAllPosts };
+const listAllByUser = async (
+  page = 0,
+  limit: 10,
+): Promise<IListAllPostsResponse> => {
+  const response = await api
+    .post(`/posts/listByUser?page=${page}&limit=${limit}`)
+    .then((res) => res)
+    .catch((err) => err);
+
+  return response.data;
+};
+
+export { createPost, deletePost, listAllPosts, listAllByUser };

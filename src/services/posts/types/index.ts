@@ -44,6 +44,12 @@ interface IListAllPostsResponse extends AppResponse {
   };
 }
 
+interface IListAllPostsByUserRequest {
+  page: string;
+  limit: string;
+  id: string;
+}
+
 export type {
   IPost,
   ICreatePostRequest,
@@ -51,4 +57,5 @@ export type {
   IDeletePostRequest,
   IDeletePostResponse,
   IListAllPostsResponse,
+  IListAllPostsByUserRequest,
 };
