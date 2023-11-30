@@ -59,7 +59,9 @@ const UpdateProfile: React.FC = () => {
 
   const [name, setName] = useState(user?.name || "");
   const [bio, setBio] = useState(user?.bio || "");
-  const [telephone, setTelephone] = useState(user?.telephone || "");
+  const [telephone, setTelephone] = useState(
+    formatarTelefone(user?.telephone || ""),
+  );
   const [birthDate, setBirthDate] = useState(user?.birthDate || "");
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");

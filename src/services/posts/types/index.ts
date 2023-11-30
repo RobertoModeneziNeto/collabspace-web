@@ -45,8 +45,8 @@ interface IListAllPostsResponse extends AppResponse {
 }
 
 interface IListAllPostsByUserRequest {
-  page: string;
-  limit: string;
+  page?: 0;
+  limit?: 10;
   id: string;
 }
 
