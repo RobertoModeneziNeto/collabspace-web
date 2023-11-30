@@ -473,12 +473,11 @@ const Profile: React.FC = () => {
               </General>
 
               <Contact>
-                {userLogged?.address && (
+                {user?.address?.[0] && (
                   <span>
                     <MapPin size={20} weight="bold" />
-                    {userLogged?.address[0].city},{" "}
-                    {userLogged?.address[0].province},{" "}
-                    {userLogged?.address[0].country}
+                    {user?.address[0].city}, {user?.address[0].province},{" "}
+                    {user?.address[0].country}
                   </span>
                 )}
 
