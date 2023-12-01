@@ -19,7 +19,7 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   padding: 1.5rem;
-
+  border-radius: 8px;
   h1 {
     color: var(--zinc-100);
     font-size: 1.5rem;

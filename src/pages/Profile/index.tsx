@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, FormEvent } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 
@@ -31,7 +31,7 @@ import {
   MapPin,
   Phone,
   Clock,
-  Balloon,
+  Cake,
   UserCirclePlus,
   UserCircleMinus,
 } from "phosphor-react";
@@ -99,6 +99,12 @@ const Profile: React.FC = () => {
   const [coverUrl, setCoverUrl] = useState("");
 
   const [posts, setPosts] = useState<IPost[]>([]);
+
+  const navigate = useNavigate();
+
+  const editProfile = () => {
+    navigate("/updateprofile");
+  };
 
   const handleListUserById = useCallback(async () => {
     try {
@@ -406,7 +412,7 @@ const Profile: React.FC = () => {
 
               {isOwner && (
                 <EditInfoButton>
-                  <PencilSimple size={22} weight="bold" />
+                  <PencilSimple size={22} weight="bold" onClick={editProfile} />
                 </EditInfoButton>
               )}
             </UserBanner>
@@ -417,10 +423,10 @@ const Profile: React.FC = () => {
                 <p>{user?.bio}</p>
 
                 <Total>
-                  <span>
+                  <span onClick={() => (window.location.href = "#post")}>
                     <strong>{posts.length}</strong> publicações
                   </span>
-                  <span>
+                  <span onClick={() => (window.location.href = "#amigos")}>
                     <strong>{friends.length}</strong> amigos
                   </span>
                 </Total>
@@ -493,15 +499,19 @@ const Profile: React.FC = () => {
                   {moment(user?.createdAt).format("[Entrou em] MMMM [de] YYYY")}
                 </span>
 
-                <span>
-                  <Balloon size={20} weight="bold" />
-                  {userLogged?.birthDate}
-                </span>
+                {user?.birthDate && (
+                  <span>
+                    <Cake size={20} weight="bold" />
+                    {moment(user?.birthDate).format(
+                      "[Nasceu em] DD [de] MMMM YYYY",
+                    )}
+                  </span>
+                )}
               </Contact>
             </UserInfo>
           </Overview>
 
-          <Friends>
+          <Friends id="amigos">
             <h1>Amigos</h1>
 
             <FriendList>
@@ -532,28 +542,32 @@ const Profile: React.FC = () => {
             </AreaFriendButton>
           </Friends>
 
-          <TitlePosts>
-            <h1>Suas Publicações</h1>
-          </TitlePosts>
+          {posts.length !== 0 && (
+            <>
+              <TitlePosts id="post">
+                <h1>Suas Publicações</h1>
+              </TitlePosts>
 
-          <PostsPosted>
-            {posts.map((post) => (
-              <Post
-                key={post.id}
-                authorId={post.user.id}
-                authorAvatar={post.user.avatarUrl}
-                authorName={post.user.name}
-                authorEmail={post.user.email}
-                postId={post.id}
-                content={post.content}
-                tags={post.tags}
-                comments={post.comments}
-                reactions={post.reactions}
-                publishedAt={post.publishedAt}
-                onDeletePost={handleRemovePost}
-              />
-            ))}
-          </PostsPosted>
+              <PostsPosted>
+                {posts.map((post) => (
+                  <Post
+                    key={post.id}
+                    authorId={post.user.id}
+                    authorAvatar={post.user.avatarUrl}
+                    authorName={post.user.name}
+                    authorEmail={post.user.email}
+                    postId={post.id}
+                    content={post.content}
+                    tags={post.tags}
+                    comments={post.comments}
+                    reactions={post.reactions}
+                    publishedAt={post.publishedAt}
+                    onDeletePost={handleRemovePost}
+                  />
+                ))}
+              </PostsPosted>
+            </>
+          )}
         </Content>
 
         <Sidebar>
