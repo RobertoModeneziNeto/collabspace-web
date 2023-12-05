@@ -185,8 +185,6 @@ const UpdateProfile: React.FC = () => {
         cep,
       });
 
-      console.log(result);
-
       if (result === "success") {
         if (data) {
           if (data.address) {
