@@ -14,6 +14,7 @@ import { session } from "../services/Sessions";
 
 import api from "../services/Api/api";
 import usePersistedState from "../hooks/usePersistedState";
+import { IAddress } from "../services/address/types";
 
 interface SignInRequest {
   email: string;
@@ -34,6 +35,13 @@ interface AuthenticationContextType {
   handleLoggedEmail: (email: string) => void;
   handleAvatarUrl: (avatarUrl: string) => void;
   handleCoverUrl: (coverUrl: string) => void;
+  handleAddress: (address: IAddress[]) => void;
+  handleUser: (
+    name: string,
+    bio: string,
+    birthDate: string,
+    telephone: string,
+  ) => void;
   signIn(data: SignInRequest): Promise<SignInResponse>;
   signOut(): void;
   me(id?: string): void;
@@ -51,6 +59,7 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
   const navigate = useNavigate();
 
   const [user, setUser] = usePersistedState<Partial<User> | null>("user", null);
+
   const [token, setToken] = usePersistedState<string>("token", "");
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -61,6 +70,19 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
       setLoggedEmail(email);
     },
     [setLoggedEmail],
+  );
+
+  const handleUser = useCallback(
+    (name: string, bio: string, birthDate: string, telephone: string) => {
+      setUser((prevState) => ({
+        ...prevState,
+        name,
+        bio,
+        birthDate,
+        telephone,
+      }));
+    },
+    [setUser],
   );
 
   const handleAvatarUrl = useCallback(
@@ -78,6 +100,16 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
       setUser((prevState) => ({
         ...prevState,
         coverUrl,
+      }));
+    },
+    [setUser],
+  );
+
+  const handleAddress = useCallback(
+    async (address: IAddress[]) => {
+      setUser((prevState) => ({
+        ...prevState,
+        address,
       }));
     },
     [setUser],
@@ -130,6 +162,8 @@ const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
         handleLoggedEmail,
         handleAvatarUrl,
         handleCoverUrl,
+        handleAddress,
+        handleUser,
         signIn,
         signOut,
         me,
