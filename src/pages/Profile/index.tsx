@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 
-import { IUser } from "../../services/users/types";
-import { listUserById, updateAvatar, updateCover } from "../../services/users";
+import { IUser } from "../../services/Users/types";
+import { listUserById, updateAvatar, updateCover } from "../../services/Users";
 import { IFriend, IRequest } from "../../services/friends/types";
 import {
   acceptRequest,

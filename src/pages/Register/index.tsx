@@ -2,7 +2,7 @@ import { useState, useCallback, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { createUser } from "../../services/users";
+import { createUser } from "../../services/Users";
 import { useAuthentication } from "../../contexts/Authentication";
 
 import { Spiner } from "../../assets/sources";
