@@ -17,7 +17,7 @@ import {
 } from "./styles";
 import { useAuthentication } from "../../contexts/Authentication";
 import { createAddress, updateAddress } from "../../services/address";
-import { updatePassword, updateUser } from "../../services/users";
+import { updatePassword, updateUser } from "../../services/Users";
 import Button from "../../components/Button";
 import { getAddress } from "../../services/viacep";
 import InputArea from "../../components/InputArea";
