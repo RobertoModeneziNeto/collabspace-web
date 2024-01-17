@@ -47,7 +47,7 @@ export const Input = styled.input`
   border: 0;
   outline: 0;
 
-  ::placeholder {
+  &::placeholder {
     color: ar(--zinc-500);
   }
 `;

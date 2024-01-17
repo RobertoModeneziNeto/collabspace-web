@@ -69,3 +69,17 @@ textarea::-webkit-scrollbar-thumb {
 textarea::-webkit-scrollbar {
   width: 4px;
 }
+
+select::-webkit-scrollbar-track {
+  margin: 8px 0;
+  background: var(--zinc-600);
+}
+
+select::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: var(--zinc-900);
+}
+
+select::-webkit-scrollbar {
+  width: 4px;
+}

@@ -220,6 +220,26 @@ export const AreaFriendButton = styled.div`
   }
 `;
 
+export const TitlePosts = styled.div`
+  background: var(--zinc-800);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  h1 {
+    font-size: 1.375rem;
+    color: var(--zinc-200);
+    font-weight: 600;
+  }
+`;
+
+export const PostsPosted = styled.div`
+  display: flex;
+
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: -1rem;
+`;
+
 export const Sidebar = styled.aside`
   width: 25%;
 `;
